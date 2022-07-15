@@ -94,9 +94,10 @@ class DashboardView(APIView):
                     }
                 )
         is_completed = request.user.profile.is_completed
+        username = request.user.username
         # len_sectors = sum([])
         # print(models.Farm.objects.filter(owner=request.user.profile)[0].get_number_sectors())
-        return Response([{'farms':len_farms, 'sectors':len_sectors, 'is_completed':is_completed, 'sectors_data':sectors_data}])
+        return Response([{'farms':len_farms, 'sectors':len_sectors, 'is_completed':is_completed, 'sectors_data':sectors_data, 'username':username}])
 
 
 class WeatherView(APIView):
@@ -252,7 +253,8 @@ class stock_history(APIView):
             data.append({
                 "input_name":item.input_name,
                 "date":item.date.strftime("%d/%m/%Y, %H:%M:%S"),
-                "quantity":item.quantity
+                "quantity":item.quantity,
+                "unit":item.unit
             })
         # data["stock_len"] = len(obj.stock.inputs.all())
         # data["prelevements"] = len(obj.stock.prelevements.all())
@@ -346,6 +348,7 @@ class FarmsViewSet(viewsets.ModelViewSet):
         res = serializer.data
 
         res['sectors'] = len(farm.sectors.all())
+        res['stock_items'] = len(farm.stock.fertilizers.all())+len(farm.stock.phyto_products.all())+len(farm.stock.mv_products.all())
         return Response(res)
 
 

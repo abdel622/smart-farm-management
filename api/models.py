@@ -402,6 +402,7 @@ class Prelevements(models.Model):
     date = models.DateTimeField()
     input_name = models.CharField(max_length=100)
     quantity = models.FloatField()
+    unit = models.CharField(max_length=10, null=True)
 
     def __str__(self):
         return f'{self.id}-{self.input_name}-{self.date}'
@@ -443,6 +444,15 @@ post_save.connect(save_stock, sender=Farm)
 
 def save_prelevement(sender, instance, created, **kwargs):
     if created:
+        type_operation = ""
+        if type(instance)==Sowing:
+            type_operation = f'Semis-Plantation Secteur-{instance.location.id}'
+        elif type(instance)==Fertilizing:
+            type_operation = f'Fertilisation Secteur-{instance.location.id}'
+        elif type(instance)==Phytosanitary_Treatement:
+            type_operation = f'Traitement Phyto Secteur-{instance.location.id}'
+
+        
         product = instance.product
         if (product.quantity - instance.quantity >= 0):
             Prelevements.objects.create(
@@ -450,12 +460,13 @@ def save_prelevement(sender, instance, created, **kwargs):
             for_operation = instance.product.type,
             date = instance.date,
             quantity = instance.quantity,
-            stock = instance.location.farm.stock
+            stock = instance.location.farm.stock,
+            unit=instance.product.unit
             )
             Cost.objects.create(
                 sector=instance.location,
                 montant=float(instance.quantity)*float(product.price_unit) + float(instance.cost),
-                description=f''   
+                description=type_operation
             )
             product.quantity = product.quantity - instance.quantity
             product.save() 
