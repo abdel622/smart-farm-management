@@ -84,7 +84,25 @@ def get_crop(value):
         'TM':'Tomate',
         'PT':'Pomme de terre',
         'OI':'Oignon',
-        'PM':'Pommier'
+        'PM':'Pommier',
+        'FR':'Fraisier',
+        'ML':'Melon',
+        'CR':'Carotte',
+        'PQ':'Pastèque',
+        'MS':'Mais',
+        'CL':'Céréales',
+        'PC':'Pêcher',
+        'AV':'Avocatier',
+        'OL':'Olivier',
+        'AM':'Amandier',
+        'CT':'Citrouille',
+        'PV':'Poivron',
+        'HR':'Haricot',
+        'CH':'Chou',
+        'NV':'Navet',
+        'BT':'Betterave',
+        'AL':'Ail'
+
     }
 
     return values[value]

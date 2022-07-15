@@ -77,11 +77,27 @@ PHYTO_TYPES = (
 )
 
 CROPS = (
-    ('TM', 'Tomate'),
-    ('PT', 'Pomme de terre'),
-    ('OI', 'Oignon'),
-    ('PM', 'Pommier')
-)
+    ('TM','Tomate'),
+    ('PT','Pomme de terre'),
+    ('OI','Oignon'),
+    ('PM','Pommier'),
+    ('FR','Fraisier'),
+    ('ML','Melon'),
+    ('CR','Carotte'),
+    ('PQ','Pastèque'),
+    ('MS','Mais'),
+    ('CL','Céréales'),
+    ('PC','Pêcher'),
+    ('AV','Avocatier'),
+    ('OL','Olivier'),
+    ('AM','Amandier'),
+    ('CT','Citrouille'),
+    ('PV','Poivron'),
+    ('HR','Haricot'),
+    ('CH','Chou'),
+    ('NV','Navet'),
+    ('BT','Betterave'),
+    ('AL','Ail'))
 
 NODE_TYPES = (
     ("S", "Sender"),
@@ -446,11 +462,11 @@ def save_prelevement(sender, instance, created, **kwargs):
     if created:
         type_operation = ""
         if type(instance)==Sowing:
-            type_operation = f'Semis-Plantation Secteur-{instance.location.id}'
+            type_operation = f'Semis-Plantation - Secteur{instance.location.id}'
         elif type(instance)==Fertilizing:
-            type_operation = f'Fertilisation Secteur-{instance.location.id}'
+            type_operation = f'Fertilisation - Secteur{instance.location.id}'
         elif type(instance)==Phytosanitary_Treatement:
-            type_operation = f'Traitement Phyto Secteur-{instance.location.id}'
+            type_operation = f'Traitement Phyto - Secteur{instance.location.id}'
 
         
         product = instance.product
@@ -492,10 +508,15 @@ post_save.connect(edit_crop, sender=Sowing)
 
 def save_cost(sender, instance, created, **kwargs):
     if created:
+        type_operation = ""
+        if type(instance)==SoilLabor:
+            type_operation = f'Travail du sol - Secteur{instance.location.id}'
+        if type(instance)==Harvesting:
+            type_operation = f'Récolte - Secteur{instance.location.id}'
         Cost.objects.create(
                 sector=instance.location,
                 montant=float(instance.cost),
-                description=f''   
+                description=type_operation   
             )
 
 
@@ -505,10 +526,11 @@ post_save.connect(save_cost, sender=Harvesting)
 
 def save_cost_irrigation(sender, instance, created, **kwargs):
     if created:
+        type_operation = f'Irrigation - Secteur{instance.location.id}'
         Cost.objects.create(
                 sector=instance.location,
                 montant=float(instance.cost_unit)*float(instance.quantity)*10*float(instance.location.area),
-                description=f''   
+                description=type_operation  
             )
 
 

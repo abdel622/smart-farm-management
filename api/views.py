@@ -834,8 +834,17 @@ class SectorDetailsData(APIView):
                 elif sensor.type=="HF":
                     values = [(i.created_at.strftime("%H:%M"), i.value) for i in sensor.leaf_wetnesses.all()]
                     sensor_data["HF"] = values
-            
+
             data['sensors_values'] = sensor_data
+            
+        else:
+            sensor_data["AT"] = []
+            sensor_data["AH"] = []
+            sensor_data["SM"] = []
+            sensor_data["HF"] = []
+
+            data['sensors_values'] = sensor_data
+
 
         data['stock'] = stock
 
