@@ -76,9 +76,12 @@ class SectorSerializer(serializers.ModelSerializer):
             # print(getattr(request.data, 'coordinates', None))
             # print(getattr(request.data, 'coordinates', None)!=None)
 
-            if request.data['is_irrigation_automatic']:
-                if models.Sector.objects.get(id=request.data['id']).pluvio_fic==None or models.Sector.objects.get(id=request.data['id']).irrigation_cost_unit==None: 
+            try:
+                if request.data['is_irrigation_automatic']:
+                    if models.Sector.objects.get(id=request.data['id']).pluvio_fic==None or models.Sector.objects.get(id=request.data['id']).irrigation_cost_unit==None: 
                         raise serializers.ValidationError("Vous devez spécifier la pluviométrie fictive et le coûts unitaire de l'irrigation")
+            except:
+                pass
 
             if  request.data['coordinates']:
                 print(request.data['id'])
