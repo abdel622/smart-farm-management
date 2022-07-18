@@ -9,6 +9,7 @@ import math
 
 import requests
 import json
+from rest_framework import serializers 
 
 # def algo(x):
 #     return (math.atan2(x[0] - mlat, x[1] - mlng) + 2 * math.pi) % (2*math.pi)
@@ -23,8 +24,9 @@ def get_agromonitoring_data(obj, polygon_name):
     res = order_coordinates(res)
 
     res = get_polygon_data(res, polygon_name)
-
-    return res
+    if (res == 500):
+        return res
+    return json.loads(res)
 
 
 
@@ -49,6 +51,12 @@ def get_polygon_data(coor, name):
         }
 
     response = requests.request("POST", url, headers=headers, data=payload)
+    print("Status Code: ", response.status_code)
+
+    if response.status_code!=201:
+        print("Error")
+        return 500
+
 
     print(response.text)
     return response.text

@@ -36,6 +36,11 @@ admin.site.register(models.LeafWetnessSensorReadings)
 # admin.site.register(models.SoilPhSensorReadings)
 # admin.site.register(models.SoilNPKSensorReadings)
 
+admin.site.register(models.VegetationSatellite)
+admin.site.register(models.SolSatellite)
+admin.site.register(models.MeteoSatellite)
+
+
 admin.site.register(models.Device)
 
 admin.site.register(models.Prelevements)

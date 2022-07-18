@@ -367,6 +367,7 @@ class SectorViewSet(viewsets.ModelViewSet):
         sectors = models.Sector.objects.filter(farm=farm)
         return sectors
 
+
     # def retrieve(self, request, farm_id, pk=None):
     #     queryset = models.Sector.objects.all()
     #     sector = get_object_or_404(queryset, pk=pk)
@@ -848,11 +849,11 @@ class SectorDetailsData(APIView):
 
         data['stock'] = stock
 
-        sum_costs = sum([x.montant for x in sector.costs.all()])
-        sum_water = sum([x.quantity for x in sector.irrigations.all()])
+        sum_costs = round(sum([x.montant for x in sector.costs.all()]), 2)
+        sum_water = round(sum([x.quantity for x in sector.irrigations.all()]), 2)
 
         data['costs'] = sum_costs
-        data['water'] = round(sum_water, 2)
+        data['water'] = sum_water
 
 
 
@@ -957,9 +958,45 @@ class cost_history(APIView):
             data.append(
                 {
                 "date":item.date.strftime("%d/%m/%Y, %H:%M:%S"),
-                "montant":item.montant,
+                "montant":round(item.montant, 2),
                 "description":item.description
                 }
             )
 
         return Response({'data': data}, status=status.HTTP_200_OK)
+
+
+class SatelliteData(APIView):
+
+
+    def post(self, request, sector_id):
+        sector = get_object_or_404(models.Sector.objects.all(), id=sector_id)
+
+
+        if request.data['type'] == "mv":
+            models.VegetationSatellite.objects.create(
+                date=datetime.datetime.fromtimestamp(request.data['date_ndvi']),
+                ndvi=request.data['ndvi'],
+                sector=sector
+            )
+
+            models.MeteoSatellite.objects.create(
+                date=datetime.datetime.fromtimestamp(request.data['date_meteo']),
+                temp=request.data['temp'],
+                sector=sector,
+                humidity=request.data['humidity'],
+                pression=request.data['pression'],
+                wind_speed=request.data['wind_speed'],
+                wind_direction=request.data['wind_direction'],
+                uvi=request.data['uvi']
+            )
+        else:
+            models.SolSatellite.objects.create(
+                date=datetime.datetime.fromtimestamp(request.data['date_meteo']),
+                surface_temp=request.data['surface_temp'],
+                temp_10cm=request.data['temp_10cm'],
+                humidity_sol=request.data['humidity_sol'],
+                sector=sector
+            )
+        
+        return Response({'data':"success"}, status=status.HTTP_200_OK)

@@ -52,6 +52,8 @@ urlpatterns = [
     path('create-operation/<int:farm_id>/<int:sector_id>/', views.CreateOperation.as_view(), name='create-operation'),
     path('irrigation-options/<int:farm_id>/<int:sector_id>/', views.IrrigationOptions.as_view(), name='irrigation-options'),
     path('cost-history/<int:sector_id>/', views.cost_history.as_view(), name='cost-history'),
+    path('satellite-data/<int:sector_id>/', views.SatelliteData.as_view(), name='satellite-data'),
+
 
 
 

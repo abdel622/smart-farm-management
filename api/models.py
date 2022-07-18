@@ -395,6 +395,8 @@ class Sector(models.Model):
     coordinates = models.CharField(max_length=1000, null=True)
     last_irrigation = models.DateTimeField(null=True)
     is_irrigation_started = models.BooleanField(default=False)
+    polygon = models.CharField(max_length=200, null=True)
+    center = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         return f'{self.id}-{self.farm.name}-{self.name}'
@@ -441,6 +443,39 @@ class Cost(models.Model):
 
     def __str__(self):
         return f'Cost {self.id}-Sector {self.sector.id}'
+
+class VegetationSatellite(models.Model):
+    sector = models.ForeignKey('Sector', related_name='vegetation_satellites', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    ndvi = models.FloatField()
+
+    def __str__(self):
+        return f'Vegetation {self.id} - Sector {self.sector.id}'
+
+
+class MeteoSatellite(models.Model):
+    sector = models.ForeignKey('Sector', related_name='meteo_satellites', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    temp = models.FloatField()
+    humidity = models.FloatField()
+    pression = models.FloatField()
+    wind_speed = models.FloatField()
+    wind_direction = models.FloatField()
+    uvi = models.FloatField()
+
+    def __str__(self):
+        return f'Meteo {self.id} - Sector {self.sector.id}'
+
+class SolSatellite(models.Model):
+    sector = models.ForeignKey('Sector', related_name='sol_satellites', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    surface_temp = models.FloatField()
+    temp_10cm = models.FloatField()
+    humidity_sol = models.FloatField()
+
+
+    def __str__(self):
+        return f'Sol {self.id} - Sector {self.sector.id}'
 
 def save_profile(sender, instance, created, **kwargs):
     if created:
