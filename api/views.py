@@ -968,6 +968,49 @@ class cost_history(APIView):
 
 class SatelliteData(APIView):
 
+    def get(self, request, sector_id):
+        sector = get_object_or_404(models.Sector.objects.all(), id=sector_id)
+
+        data = {}
+
+        vegetation = sector.vegetation_satellites.last()
+        meteo = sector.meteo_satellites.last()
+        soil = sector.sol_satellites.last()
+
+        if vegetation != None:
+            data['vegetation'] = round(vegetation.ndvi, 2)
+        else:
+            data['vegetation'] = None
+
+        if meteo != None:
+            data['temp'] = round(meteo.temp, 2)
+            data['humidity'] = round(meteo.humidity, 2)
+            data['pression'] = round(meteo.pression, 2)
+            data['wind_speed'] = round(meteo.wind_speed, 2)
+            data['wind_direction'] = meteo.wind_direction
+            data['uvi'] = round(meteo.uvi, 2)
+
+
+        else:
+            data['temp'] = None
+            data['humidity'] = None
+            data['pression'] = None
+            data['wind_speed'] = None
+            data['wind_direction'] = None
+            data['uvi'] = None
+
+        if soil != None:
+            data['surface_temp'] = round(soil.surface_temp, 2)
+            data['temp_10cm'] = round(soil.temp_10cm, 2)
+            data['humidity_sol'] = round(soil.humidity_sol, 2)
+
+        else:
+            data['surface_temp'] = None
+            data['temp_10cm'] = None
+            data['humidity_sol'] = None
+
+
+        return Response({'data':data}, status=status.HTTP_200_OK)
 
     def post(self, request, sector_id):
         sector = get_object_or_404(models.Sector.objects.all(), id=sector_id)

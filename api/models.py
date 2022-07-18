@@ -473,7 +473,6 @@ class SolSatellite(models.Model):
     temp_10cm = models.FloatField()
     humidity_sol = models.FloatField()
 
-
     def __str__(self):
         return f'Sol {self.id} - Sector {self.sector.id}'
 
