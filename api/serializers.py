@@ -49,7 +49,7 @@ class FarmSerialzer(serializers.ModelSerializer):
 class SectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Sector
-        fields = ('id', 'name', 'farm', 'area', 'crop', 'coordinates', 'is_connected', 'is_irrigation_automatic', 'is_irrigation_started')
+        fields = ('id', 'name', 'farm', 'area', 'crop', 'is_connected', 'is_irrigation_automatic', 'is_irrigation_started', 'polygon', 'center')
     
     
     def validate(self, data):

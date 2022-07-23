@@ -392,7 +392,7 @@ class Sector(models.Model):
     pluvio_fic = models.FloatField(null=True)
     is_connected = models.BooleanField(default=False)
     is_irrigation_automatic = models.BooleanField(default=False)
-    coordinates = models.CharField(max_length=1000, null=True)
+    # coordinates = models.CharField(max_length=1000, null=True)
     last_irrigation = models.DateTimeField(null=True)
     is_irrigation_started = models.BooleanField(default=False)
     polygon = models.CharField(max_length=200, null=True)
