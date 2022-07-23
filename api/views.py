@@ -705,18 +705,18 @@ class SoilMoistureSensorReadingsViewSet(viewsets.ModelViewSet):
 #         return values
 
 
-class LeafWetnessSensorReadingsViewSet(viewsets.ModelViewSet):
-    """
-    A viewset for viewing and editing Leaf Wetness instances.
-    """
+# class LeafWetnessSensorReadingsViewSet(viewsets.ModelViewSet):
+#     """
+#     A viewset for viewing and editing Leaf Wetness instances.
+#     """
 
-    serializer_class = serializers.LeafWetnessSensorReadingsSerializer
-    # queryset = models.LeafWetnessSensorReadings.objects.all()
+#     serializer_class = serializers.LeafWetnessSensorReadingsSerializer
+#     # queryset = models.LeafWetnessSensorReadings.objects.all()
 
-    def get_queryset(self):
-        sensor = models.Sensor.objects.get(id=self.kwargs['sensor_id'])
-        values = models.LeafWetnessSensorReadings.objects.filter(sensor=sensor)
-        return values
+#     def get_queryset(self):
+#         sensor = models.Sensor.objects.get(id=self.kwargs['sensor_id'])
+#         values = models.LeafWetnessSensorReadings.objects.filter(sensor=sensor)
+#         return values
 
 
 

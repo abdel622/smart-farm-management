@@ -233,17 +233,17 @@ class Sowing(models.Model):
         return f'Sowing Operations {self.id} / Crop {self.crop} - Sector {self.location.id} / Farm {self.location.farm.id}' 
 
 
-class Desherbage(models.Model):
-    location = models.ForeignKey("Sector", on_delete=models.CASCADE, related_name='desherbage_operations')
-    date = models.DateTimeField() 
-    product = models.ForeignKey("ProductPhyto", related_name="desherbage_operations",on_delete=models.CASCADE, null=True)
-    quantity = models.FloatField()
-    type = models.CharField(max_length=10)
-    cost = models.FloatField(null=True)
+# class Desherbage(models.Model):
+#     location = models.ForeignKey("Sector", on_delete=models.CASCADE, related_name='desherbage_operations')
+#     date = models.DateTimeField() 
+#     product = models.ForeignKey("ProductPhyto", related_name="desherbage_operations",on_delete=models.CASCADE, null=True)
+#     quantity = models.FloatField()
+#     type = models.CharField(max_length=10)
+#     cost = models.FloatField(null=True)
 
 
-    def __str__(self):
-        return f'Desherbage Operations {self.id} - Sector {self.location.id} / Farm {self.location.farm.id }'
+#     def __str__(self):
+#         return f'Desherbage Operations {self.id} - Sector {self.location.id} / Farm {self.location.farm.id }'
 
 class Irrigation(models.Model):
     location = models.ForeignKey("Sector", on_delete=models.CASCADE, related_name='irrigations')
@@ -325,13 +325,13 @@ class SoilMoistureSensorReadings(models.Model):
     def __str__(self):
         return f'{self.id} - Soil Moisture - Sector {self.sensor.node.location.id} - {self.created_at}'
 
-class LeafWetnessSensorReadings(models.Model):
-    sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE, related_name='leaf_wetnesses')
-    created_at = models.DateTimeField(auto_now_add=True)
-    value = models.FloatField()
+# class LeafWetnessSensorReadings(models.Model):
+#     sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE, related_name='leaf_wetnesses')
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     value = models.FloatField()
 
-    def __str__(self):
-        return f'{self.id} - Leaf Wetness - Sector {self.sensor.node.location.id} - {self.created_at}'
+#     def __str__(self):
+#         return f'{self.id} - Leaf Wetness - Sector {self.sensor.node.location.id} - {self.created_at}'
 
 # class SoilPhSensorReadings(models.Model):
 #     sensor = models.ForeignKey('Sensor', on_delete=models.CASCADE, related_name='soil_phs')

@@ -288,9 +288,9 @@ class SoilMoistureSensorReadingsSerializer(serializers.ModelSerializer):
 #         fields = ('id', 'sensor', 'created_at', 'value')
 
 
-class LeafWetnessSensorReadingsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.LeafWetnessSensorReadings
-        fields = ('id', 'sensor', 'created_at', 'value')
+# class LeafWetnessSensorReadingsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = models.LeafWetnessSensorReadings
+#         fields = ('id', 'sensor', 'created_at', 'value')
 
     

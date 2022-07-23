@@ -29,7 +29,7 @@ router.register(r'air_humidity/(?P<sensor>[0-9]+)', views.AirHumiditySensorReadi
 router.register(r'soil_moisture/(?P<sensor>[0-9]+)', views.SoilMoistureSensorReadingsViewSet, basename='soil_moistures')
 # router.register(r'soil_ph/(?P<sensor>[0-9]+)', views.SoilPhSensorReadingsViewSet, basename='soil_phs')
 # router.register(r'soil_npk/(?P<sensor>[0-9]+)', views.SoilNPKSensorReadingsViewSet, basename='soil_npks')
-router.register(r'leaf_wetness/(?P<sensor>[0-9]+)', views.LeafWetnessSensorReadingsViewSet, basename='leaf_wetnesses')
+# router.register(r'leaf_wetness/(?P<sensor>[0-9]+)', views.LeafWetnessSensorReadingsViewSet, basename='leaf_wetnesses')
 
 
 
