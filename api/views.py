@@ -1044,12 +1044,14 @@ class SatelliteData(APIView):
         sector = get_object_or_404(models.Sector.objects.all(), id=sector_id)
 
 
-        if request.data['type'] == "mv":
+        if request.data['type'] == "vegetation":
             models.VegetationSatellite.objects.create(
                 date=datetime.datetime.fromtimestamp(request.data['date_ndvi']),
                 ndvi=request.data['ndvi'],
                 sector=sector
             )
+        
+        elif request.data['type'] == 'meteo':
 
             models.MeteoSatellite.objects.create(
                 date=datetime.datetime.fromtimestamp(request.data['date_meteo']),
