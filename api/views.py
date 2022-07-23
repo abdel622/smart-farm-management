@@ -972,7 +972,7 @@ class add_coordinates(APIView):
 
         data = {}
         print(request.data['id'])
-        if models.Sector.objects.get(id=request.data['id']).coordinates:
+        if models.Sector.objects.get(id=request.data['id']).polygon:
             return Response({'message': "Success 1"}, status=status.HTTP_200_OK)
         else:
             res = utilities.get_agromonitoring_data(request.data['coordinates'], f'farm-{sector.farm.id}-sector-{request.data["id"]}' )                
