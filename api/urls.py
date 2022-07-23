@@ -53,6 +53,7 @@ urlpatterns = [
     path('irrigation-options/<int:farm_id>/<int:sector_id>/', views.IrrigationOptions.as_view(), name='irrigation-options'),
     path('cost-history/<int:sector_id>/', views.cost_history.as_view(), name='cost-history'),
     path('satellite-data/<int:sector_id>/', views.SatelliteData.as_view(), name='satellite-data'),
+    path('add_coordinates/<int:sector_id>/', views.add_coordinates.as_view(), name='add-coordinates'),
 
 
 

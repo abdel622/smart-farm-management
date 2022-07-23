@@ -14,6 +14,7 @@ import requests
 import os
 import json
 from .utilities import CROPS_DATA_F, Min_THRESH,get_crop
+from . import utilities
 from django.utils.timezone import localdate, localtime
 
 def get_category_info(item):
@@ -964,6 +965,33 @@ class cost_history(APIView):
             )
 
         return Response({'data': data}, status=status.HTTP_200_OK)
+
+class add_coordinates(APIView):
+    def post(self, request, sector_id):
+        sector = get_object_or_404(models.Sector.objects.all(), pk=sector_id)
+
+        data = {}
+        print(request.data['id'])
+        if models.Sector.objects.get(id=request.data['id']).coordinates:
+            return Response({'message': "Success 1"}, status=status.HTTP_200_OK)
+        else:
+            res = utilities.get_agromonitoring_data(request.data['coordinates'], f'farm-{sector.farm.id}-sector-{request.data["id"]}' )                
+                    
+            if res==500:
+                return Response({'message': "Error 1"}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                center = ''
+                for coor in res['center']:
+                    center += f'{coor} '
+                center = center.strip()
+                sector.center = center
+                sector.polygon = res["id"]
+                sector.save()
+                # data['coordinates'] = f'{res["id"]} {center}'
+                return Response({'message': "Success"}, status=status.HTTP_200_OK)
+            
+
+
 
 
 class SatelliteData(APIView):

@@ -56,6 +56,8 @@ class SectorSerializer(serializers.ModelSerializer):
         farm_object = data['farm']
         
         request = self.context.get("request")
+        print(request.stream.path)
+        print(dir(request.stream))
 
         if request.method == "POST":
             sum_areas = farm_object.sectors_area(farm_object) + data['area']
@@ -76,43 +78,13 @@ class SectorSerializer(serializers.ModelSerializer):
             # print(getattr(request.data, 'coordinates', None))
             # print(getattr(request.data, 'coordinates', None)!=None)
             
+
+
             if request.data['is_irrigation_automatic']:
                 if models.Sector.objects.get(id=request.data['id']).pluvio_fic==None or models.Sector.objects.get(id=request.data['id']).irrigation_cost_unit==None: 
                         raise serializers.ValidationError("Vous devez spécifier la pluviométrie fictive et le coûts unitaire de l'irrigation")
 
-            if  request.data['coordinates']:
-                print(request.data['id'])
-                if models.Sector.objects.get(id=request.data['id']).coordinates:
-                    pass
-                else:
-                    res = utilities.get_agromonitoring_data(request.data['coordinates'], f'farm-{farm_object.id}-sector-{request.data["id"]}' )                
                     
-
-                    if res==500:
-                        raise serializers.ValidationError("Error !")
-                    else:
-                        center = ''
-                        for coor in res['center']:
-                            center += f'{coor} '
-                        center = center.strip()
-                        data['coordinates'] = f'{res["id"]} {center}'
-                        # sector = models.Sector.objects.get(id=request.data['id'])
-                        # sector.polygon = res['id']
-
-                        # sector.center = center.strip()
-                        # sector.save()
-                    # print(type(res))
-                    # print(res['id'])
-                    # print(res['center'])
-                    
-
-
-
-
-                    # print("Result: ", request.data['coordinates']) 
-            # except:
-                # raise serializers.ValidationError("Error !")
-        
         return data
 
     # def create(self, validated_data):
