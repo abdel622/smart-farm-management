@@ -299,6 +299,7 @@ class takeout(APIView):
             new_prelevement = models.Prelevements.objects.create(
                 stock=user.profile.farms.get(id=farm_id).stock,
                 quantity=data['quantity'],
+                unit=obj.unit,
                 input_name = obj.name,
                 for_operation = obj.type,
                 date = datetime.datetime.now()
